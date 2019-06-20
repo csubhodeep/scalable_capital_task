@@ -56,6 +56,32 @@
 	{
 		"additional_info":
 		{
+			"release_msid":"34dbfc74-31e4-45c3-9d6e-04d8b6c5fd4a",
+			"release_mbid":null,
+			"recording_mbid":null,
+			"release_group_mbid":null,
+			"artist_mbids":[],
+			"tags":[],
+			"work_mbids":[],
+			"isrc":null,
+			"spotify_id":null,
+			"tracknumber":null,
+			"track_mbid":null,
+			"artist_msid":"f1d39567-27e7-40af-852a-abaed88ec838",
+			"recording_msid":"283062c8-75e2-407a-8c5e-f38136aa5a68"
+		},
+		"artist_name":"Withered Hand",
+		"track_name":"Babycornflake",
+		"release_name":"Good News Returns"
+	},
+	"listened_at":1555286392,
+	"recording_msid":"283062c8-75e2-406a-8c5e-f38136aa5a68",
+	"user_name":"Superman"
+},{
+	"track_metadata":
+	{
+		"additional_info":
+		{
 			"release_msid":"7066a476-076a-46ba-9105-92ada488cb0b",
 			"release_mbid":null,
 			"recording_mbid":null,
