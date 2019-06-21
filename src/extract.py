@@ -13,8 +13,7 @@ class Extractor():
     Many aspects of this class are hard-coded and expect the input to be the specific ListenBrainz dataset
     """
 
-    def __init__(self,path,list_of_jsons):
-        self.filepath = path
+    def __init__(self,list_of_jsons):
         self.list_of_jsons = list_of_jsons
         # initialize empty sets of msids
         self.set_of_artist_msids = set([])
@@ -28,6 +27,13 @@ class Extractor():
         self.dict_of_fields_release = {"release_msid": str, "release_name": str}
         self.dict_of_fields_artist = {"artist_msid": str, "artist_name": str}
         pass
+
+    def dispose(self):
+        """
+        deletes this instance from the memory
+        :return: None
+        """
+        del self
 
     def __is_consistent_datatype__(self,element,dict_of_fields):
         """

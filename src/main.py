@@ -10,8 +10,10 @@ import time
 class DataIngestor():
 
     """
-    the purpose of this class is that while reading data from the disk and loading into the system memory
+    the purpose of this class are:
+    1. Reads data from the disk and loads into the system memory
     it also tries to ensure that there is no duplicate records
+    2. Start a database instance and opens a connection to it so that it can be populated with the available data
     """
 
     def __init__(self,path):
@@ -62,7 +64,7 @@ class DataIngestor():
     def main(self):
 
         # making a dummy extractor object for defining schema that is later used for creation of the tables
-        extr = Extractor(path="",list_of_jsons=[])
+        extr = Extractor(list_of_jsons=[])
         listener_schema, release_schema, recording_schema, artist_schema = extr.get_schema_for_all_tables()
 
         # define database names and table names here
@@ -89,8 +91,7 @@ class DataIngestor():
 
             # a flg is used to instantiate the Extractor object only once required to load the values
             flg = True
-            #while True:
-            if True:
+            while True:
                 # setting a refresh rate of 1s
                 time.sleep(1)
                 # check for new data
@@ -98,7 +99,7 @@ class DataIngestor():
                 # instantiate the object only once - so that upon updation of new data the set of msids are not deleted
                 # and the new rows can be checked for duplication especially for the dimension tables e.g. artist & release
                 if flg:
-                    extractor_object = Extractor(path,new_json_list)
+                    extractor_object = Extractor(new_json_list)
                     flg = False
 
                 # if new rows have been added then
@@ -119,9 +120,11 @@ class DataIngestor():
                     release_table_object.add_index("release_msid")
                     recording_table_object.add_index("recording_msid")
 
+                    # update the old data
+                    old_json_list.extend(new_json_list)
                 else:
                     pass
-                old_json_list.extend(new_json_list)
+
         except Error as e:
             logging.error(e)
 
