@@ -1,6 +1,11 @@
 import pandas as pd
 import sqlite3
 
+"""
+This script basically runs a couple of queries on the database to
+answer some specific BI questions 
+"""
+
 def query1(conn):
     # first answer
     cmd = "select user_name, count(*) as cnt " \
@@ -18,13 +23,21 @@ def query2(conn):
     print(pd.read_sql_query(cmd, conn))
 
 def query3(conn):
-    cmd = "select * from listeners;"
+    cmd = "select user_name, min(listened_at) as first_listened_at, track_name " \
+          "from listeners join recordings on listeners.recording_msid=recordings.recording_msid " \
+          "group by user_name " \
+          "limit 10;"
 
+    print(pd.read_sql_query(cmd,conn))
+
+def test_query(conn):
+    cmd = "select * from listeners;"
     print(pd.read_sql_query(cmd,conn))
 
 
 def make_dwh(conn):
-     # execute queries to get a fact report for Task #3
+    # Transformation step
+    # execute queries to get a fact report for Task #3
 
 
     return None
@@ -36,6 +49,5 @@ if __name__ == "__main__":
     #query1(conn)
     #query2(conn)
     query3(conn)
-
-    # Transformation step
-    make_dwh(conn)
+    #test_query(conn)
+    #make_dwh(conn)

@@ -97,6 +97,20 @@ class CrudTable():
         except Error as e:
             print(e)
 
+    def add_index(self,field_name):
+        """
+        adds the index on a particular column
+        :param field_name: the column name to add the index
+        :return: None
+        """
+        try:
+            index_name = "index_{}".format(field_name)
+            cmd = "CREATE INDEX {0} ON {1}({2})".format(index_name,self.table_name,field_name)
+            self.__execute_commands__(cmd)
+            logging.info("Table {} has been altered".format(self.table_name))
+        except Error as e:
+            print(e)
+
 
     def __create__(self):
         """
