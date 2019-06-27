@@ -5,7 +5,7 @@ class CrudTable():
 
     """
     This class has been created to manage and abstract the interaction with the database from the main code
-    All the necessary SQL queries for CRUD operations have been encapslated in this class and only accessible by specific methods
+    All the necessary SQL queries for CRUD operations have been encapsulated in this class and only accessible by specific methods
     """
 
     def __init__(self,table_name,db_conn,schema):

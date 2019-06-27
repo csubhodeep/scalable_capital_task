@@ -13,8 +13,8 @@ class Extractor():
     Many aspects of this class are hard-coded and expect the input to be the specific ListenBrainz dataset
     """
 
-    def __init__(self,list_of_jsons):
-        self.list_of_jsons = list_of_jsons
+    def __init__(self):
+        self.list_of_jsons = []
         # initialize empty sets of msids
         self.set_of_artist_msids = set([])
         self.set_of_release_msids = set([])
@@ -76,7 +76,7 @@ class Extractor():
             if self.__is_a_valid_msid__(dict["track_metadata"]["additional_info"]["artist_msid"]):
                 art["artist_msid"] = dict["track_metadata"]["additional_info"]["artist_msid"]
             else:
-                logging.error(
+                logging.warning(
                     "invalid artist msid: " + str(dict["track_metadata"]["additional_info"]["artist_msid"]))
                 art["artist_msid"] = 0
             art["artist_name"] = dict["track_metadata"]["artist_name"]
@@ -104,7 +104,7 @@ class Extractor():
             if self.__is_a_valid_msid__(dict["track_metadata"]["additional_info"]["release_msid"]):
                 release["release_msid"] = dict["track_metadata"]["additional_info"]["release_msid"]
             else:
-                logging.error(
+                logging.warning(
                     "invalid artist msid: " + str(dict["track_metadata"]["additional_info"]["release_msid"]))
                 release["release_msid"] = 0
             release["release_name"] = dict["track_metadata"]["release_name"]
@@ -132,7 +132,7 @@ class Extractor():
             if self.__is_a_valid_msid__(dict["track_metadata"]["additional_info"]["recording_msid"]):
                 recording["recording_msid"] = dict["track_metadata"]["additional_info"]["recording_msid"]
             else:
-                logging.error(
+                logging.warning(
                     "invalid recording msid: " + str(dict["track_metadata"]["additional_info"]["recording_msid"]))
                 recording["recording_msid"] = 0
 
@@ -140,14 +140,14 @@ class Extractor():
             if dict["track_metadata"]["additional_info"]["release_msid"] in self.set_of_release_msids:
                 recording["release_msid"] = dict["track_metadata"]["additional_info"]["release_msid"]
             else:
-                logging.error("invalid release msid: " + str(dict["track_metadata"]["additional_info"]["release_msid"]))
+                logging.warning("invalid release msid: " + str(dict["track_metadata"]["additional_info"]["release_msid"]))
                 recording["release_msid"] = 0
 
             # check if key exists in parent table - artists
             if dict["track_metadata"]["additional_info"]["artist_msid"] in self.set_of_artist_msids:
                 recording["artist_msid"] = dict["track_metadata"]["additional_info"]["artist_msid"]
             else:
-                logging.error("invalid artist msid: " + str(dict["track_metadata"]["additional_info"]["artist_msid"]))
+                logging.warning("invalid artist msid: " + str(dict["track_metadata"]["additional_info"]["artist_msid"]))
                 recording["artist_msid"] = 0
 
             recording["track_name"] = dict["track_metadata"]["track_name"]
@@ -178,7 +178,7 @@ class Extractor():
             if dict["track_metadata"]["additional_info"]["recording_msid"] in self.set_of_recording_msids:
                 listener["recording_msid"] = dict["track_metadata"]["additional_info"]["recording_msid"]
             else:
-                logging.error(
+                logging.warning(
                     "invalid recording msid: " + str(dict["track_metadata"]["additional_info"]["recording_msid"]))
                 listener["recording_msid"] = 0
             listener["listened_at"] = dict["listened_at"]
@@ -257,9 +257,10 @@ class Extractor():
         return self.__create_listener_schema__(), self.__create_release_schema__(), \
                self.__create_recording_schema__(), self.__create_artist_schema__()
 
-    def get_rows_for_all_tables(self):
+    def get_rows_for_all_tables(self,list_of_jsons):
         """
         public function to be accessed from the main code to obtain the list of values to be inserted for all the table
         :return: dictionary of list of tuples
         """
+        self.list_of_jsons = list_of_jsons
         return self.__create_list_of_tuples_from_json__()

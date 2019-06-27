@@ -64,7 +64,7 @@ class DataIngestor():
     def main(self):
 
         # making a dummy extractor object for defining schema that is later used for creation of the tables
-        extr = Extractor(list_of_jsons=[])
+        extr = Extractor()
         listener_schema, release_schema, recording_schema, artist_schema = extr.get_schema_for_all_tables()
 
         # define database names and table names here
@@ -99,14 +99,14 @@ class DataIngestor():
                 # instantiate the object only once - so that upon updation of new data the set of msids are not deleted
                 # and the new rows can be checked for duplication especially for the dimension tables e.g. artist & release
                 if flg:
-                    extractor_object = Extractor(new_json_list)
+                    extractor_object = Extractor()
                     flg = False
 
                 # if new rows have been added then
                 if len(new_json_list):
 
                     #iterate over each element in the new list and extract the necessary values for each table
-                    new_data = extractor_object.get_rows_for_all_tables()
+                    new_data = extractor_object.get_rows_for_all_tables(new_json_list)
 
                     # the below sequence is important to ensure foreign-key constraints
                     artist_table_object.insert(new_data["artist_data"])
